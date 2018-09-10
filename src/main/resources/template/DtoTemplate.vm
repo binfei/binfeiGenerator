@@ -1,0 +1,15 @@
+package $!{packageName}.$!{entityDto.modeName}.entity;
+
+import lombok.Data;
+/**
+ * userName:$!{userName}
+ * date:$!{userName}
+ */
+@Data
+public class $!{entityDto.className} {
+#foreach( $column in $entityDto.columns )
+    private $!{column.propertyType}  $!{column.propertyName}; //  $!{column.remarks}   $!{column.columnName}
+
+#end
+
+}

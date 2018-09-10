@@ -1,0 +1,29 @@
+package $!{entityDto.packageName}.$!{entityDto.modeName}.$!{entityDto.className}BaseMapper;
+
+import $!{entityDto.packageName}.$!{entityDto.modeName}.entity.$!{entityDto.className};
+import java.util.List;
+import org.apache.ibatis.annotations.Param;
+
+public interface $!{entityDto.className}Mapper {
+    long countByMap(Map map);
+
+    int deleteByMap(Map map);
+
+    int deleteByPrimaryKey(Long id);
+
+    int insert($!{entityDto.className} record);
+
+    int insertSelective($!{entityDto.className} record);
+
+    List<$!{entityDto.className}> selectByMap(Map map);
+
+    $!{entityDto.className} selectByPrimaryKey(Long Id);
+
+    int updateByMapSelective(DataMode dataMode);//有值的就修改  无值不修改
+
+    int updateByMap(DataMode dataMode);//全修改
+
+    int updateByPrimaryKeySelective($!{entityDto.className} record);//更据主键修改,有值的修改
+
+    int updateByPrimaryKey($!{entityDto.className} record);//根据主键全修改
+}

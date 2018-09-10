@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="$!{entityDto.packageName}.$!{entityDto.modeName}.mapper.$!{entityDto.className}BaseMapper">
+    <resultMap id="BaseResultMap" type="$!{entityDto.packageName}.$!{entityDto.modeName}.entity.$!{entityDto.className}">
+#foreach( $column in $entityDto.columns )
+#if($column.columnName==$entityDto.primaryKey)
+         <id column="$!{column.columnName}" jdbcType="$!{column.jdbcType}" property="$!{column.propertyName}" />
+#else
+         <result column="$!{column.columnName}" jdbcType="$!{column.jdbcType}" property="$!{column.propertyName}"/>
+#end
+#end
+    </resultMap>
+    <sql id="Example_Where_Map">
+        <where>
+            <trim prefix="(" prefixOverrides="and" suffix=")">
+#foreach( $column in $entityDto.columns )
+#if($column.isSND=='s')
+            <choose>
+                <when test="_parameter.containsKey('$!{column.propertyName}')">
+                    and  $!{column.columnName} = #{$!{column.propertyName},jdbcType=$!{column.jdbcType}}
+                </when>
+                <when test="_parameter.containsKey('$!{column.propertyName}_la')">
+                    <bind name="valuela" value="'%' +$!{column.propertyName}_la+ '%'" />
+                    and  $!{column.columnName} like #{valuela,jdbcType=$!{column.jdbcType}} ##CONCAT('%', #{$!{column.propertyName},jdbcType=$!{column.jdbcType}},'%')
+
+                </when>
+                <when test="_parameter.containsKey('$!{column.propertyName}_lr')">
+                    <bind name="valuelr" value="$!{column.propertyName}_lr+ '%'" />
+                    and  $!{column.columnName} like #{valuelr,jdbcType=$!{column.jdbcType}}  ##CONCAT('', #{$!{column.propertyName},jdbcType=$!{column.jdbcType}},'%')
+
+                </when>
+                <when test="_parameter.containsKey('$!{column.propertyName}_ll')">
+                    <bind name="valuell" value="'%'+$!{column.propertyName}_ll" />
+                    and  $!{column.columnName} like #{valuell,jdbcType=$!{column.jdbcType}} ## CONCAT('%', #{$!{column.propertyName},jdbcType=$!{column.jdbcType}},'')
+
+                </when>
+                <when test="_parameter.containsKey('$!{column.propertyName}_ne')" >
+                    and  $!{column.columnName} !=  #{$!{column.propertyName}_ne,jdbcType=$!{column.jdbcType}}
+
+                </when>
+                <when test="_parameter.containsKey('$!{column.propertyName}_s')" >
+                    and  $!{column.columnName} in
+                    <foreach collection="$!{column.propertyName}_s" index="index" item="item" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </when>
+            </choose>
+#end
+#if($column.isSND=='n')#*数字类型*#
+            <if test="_parameter.containsKey('$!{column.propertyName}')">
+                and  $!{column.columnName} = ${$!{column.propertyName}}
+            </if>
+            <if test="_parameter.containsKey('$!{column.propertyName}_gt')" >
+                and  $!{column.columnName} <![CDATA[ < ]]>  ${$!{column.propertyName}_gt}
+            </if>
+            <if test="_parameter.containsKey('$!{column.propertyName}_gte')" >
+                and  $!{column.columnName} <![CDATA[ > ]]>= ${$!{column.propertyName}_gte}
+            </if>
+            <if test="_parameter.containsKey('$!{column.propertyName}_lt')" >
+                and  $!{column.columnName} <![CDATA[ > ]]>  ${$!{column.propertyName}_lt}
+            </if>
+            <if test="_parameter.containsKey('$!{column.propertyName}_lte')" >
+                and  $!{column.columnName} <![CDATA[ > ]]>=  ${$!{column.propertyName}_lte}
+            </if>
+            <if test="_parameter.containsKey('$!{column.propertyName}_ne')" >
+                and  $!{column.columnName} !=  ${$!{column.propertyName}_ne}
+            </if>
+            <if test="_parameter.containsKey('$!{column.propertyName}_s')" >
+                and  $!{column.columnName} in
+                <foreach collection="$!{column.propertyName}_s" index="index" item="item" open="(" separator="," close=")">
+                    ${item}
+                </foreach>
+            </if>
+#end
+#if($column.isSND=='d')#*日期类型*#
+            <if test="_parameter.containsKey('$!{column.propertyName}')">
+                and  DATE_FORMAT($!{column.columnName},'%Y-%m-%d') = DATE_FORMAT(#{$!{column.propertyName}},'%Y-%m-%d')
+            </if>
+            <if test="_parameter.containsKey('$!{column.propertyName}_gt')" >
+                and  $!{column.columnName} <![CDATA[ < ]]>  #{$!{column.propertyName}_gt}
+            </if>
+            <if test="_parameter.containsKey('$!{column.propertyName}_gte')" >
+                and  $!{column.columnName} <![CDATA[ > ]]>= #{$!{column.propertyName}_gte}
+            </if>
+            <if test="_parameter.containsKey('$!{column.propertyName}_lt')" >
+                and  $!{column.columnName} <![CDATA[ > ]]>  #{$!{column.propertyName}_lt}
+            </if>
+            <if test="_parameter.containsKey('$!{column.propertyName}_lte')" >
+                and  $!{column.columnName} <![CDATA[ > ]]>=  #{$!{column.propertyName}_lte}
+            </if>
+            <if test="_parameter.containsKey('$!{column.propertyName}_ne')" >
+                and  DATE_FORMAT($!{column.columnName},'%Y-%m-%d') = DATE_FORMAT(#{$!{column.propertyName}_ne},'%Y-%m-%d')
+            </if>
+#end
+#end
+                <if test="_parameter.containsKey('_extend')" >
+                    ${_extend}
+                </if>
+            </trim>
+        </where>
+    </sql>
+
+    <sql id="Base_Column_List">
+#foreach( $column in $entityDto.columns )
+#if($velocityCount == 1)       #end $!{column.columnName} #if($foreach.hasNext),#end
+#end
+    </sql>
+    <select id="selectByMap" parameterType="map" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List" />
+        from $!{entityDto.tableName}
+        <if test="_parameter != null">
+            <include refid="Example_Where_Map" />
+        </if>
+        <if test="_parameter.containsKey('_od') and _od != null ">
+            order by ${_od}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from $!{entityDto.tableName}
+        where $!{entityDto.primaryKey} = #{$!{entityDto.primaryPropertyKey},jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from $!{entityDto.tableName} where $!{entityDto.primaryKey} = #{$!{entityDto.primaryPropertyKey},jdbcType=BIGINT}
+    </delete>
+    <delete id="deleteByMap" parameterType="map">
+        delete from $!{entityDto.tableName}
+        <if test="_parameter != null">
+            <include refid="Example_Where_Map" />
+        </if>
+    </delete>
+    <insert id="insert" parameterType="$!{entityDto.packageName}.$!{entityDto.modeName}.entity.$!{entityDto.className}">
+        <selectKey keyProperty="$!{entityDto.primaryKey}" order="AFTER" resultType="java.lang.Long">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+            insert into $!{entityDto.tableName} (
+#foreach( $column in $entityDto.columns )
+#if($velocityCount != 1 )
+                $!{column.columnName}#if($velocityCount != 1 && $foreach.hasNext),#end
+
+#end
+#end
+                )
+        values (
+#foreach( $column in $entityDto.columns )
+#if($velocityCount != 1 )
+                #{$!{column.propertyName},jdbcType=$!{column.jdbcType}}#if($foreach.hasNext),#end
+
+#end
+#end
+        )
+    </insert>
+
+    <insert id="insertSelective" parameterType="$!{entityDto.packageName}.$!{entityDto.modeName}.entity.$!{entityDto.className}">
+        <selectKey keyProperty="$!{entityDto.primaryKey}" order="AFTER" resultType="java.lang.Long">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into $!{entityDto.tableName}
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+#foreach( $column in $entityDto.columns )
+#if($velocityCount != 1)
+               <if test="$!{column.propertyName} != null">
+                   $!{column.columnName}#if($foreach.hasNext),#end
+
+               </if>
+#end
+#end
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+#foreach( $column in $entityDto.columns )
+#if($velocityCount != 1)
+               <if test="$!{column.propertyName} != null">
+                   #{$!{column.propertyName},jdbcType=$!{column.jdbcType}}#if($foreach.hasNext),#end
+
+               </if>
+#end
+#end
+        </trim>
+    </insert>
+    <select id="countByMap" parameterType="map" resultType="java.lang.Long">
+        select count(1) from $!{entityDto.tableName}
+        <if test="_parameter != null">
+            <include refid="Example_Where_Map" />
+        </if>
+    </select>
+    <!--根据条件部分修改-->
+    <update id="updateByMapSelective" parameterType="map">
+        update $!{entityDto.tableName}
+            <set>
+#foreach( $column in $entityDto.columns )
+                <if test="record.propertyName != null">
+                    $!{column.columnName} = #{record.$!{column.propertyName},jdbcType=$!{column.jdbcType}}#if($foreach.hasNext),#end
+
+                </if>
+#end
+            </set>
+        <if test="_parameter != null">
+            <include refid="Example_Where_Map" />
+        </if>
+    </update>
+    <!--根据条件全修改-->
+    <update id="updateByMap" parameterType="map">
+        update $!{entityDto.tableName}
+        set
+#foreach( $column in $entityDto.columns )
+            $!{column.columnName} = #{record.$!{column.propertyName},jdbcType=$!{column.jdbcType}}#if($foreach.hasNext),#end
+
+#end
+        <if test="_parameter != null">
+            <include refid="Example_Where_Map" />
+        </if>
+    </update>
+
+    <!--根据条件id部分修改-->
+    <update id="updateByPrimaryKeySelective" parameterType="com.binfei.admin.sys.entity.User">
+        update $!{entityDto.tableName}
+            <set>
+#foreach( $column in $entityDto.columns )
+#if($velocityCount != 1 )
+                <if test="record.$!{column.propertyName} != null">
+                        $!{column.columnName} = #{record.$!{column.propertyName},jdbcType=$!{column.jdbcType}}#if($foreach.hasNext),#end
+
+                </if>
+#end
+#end
+            </set>
+        where $!{entityDto.primaryKey} = #{$!{entityDto.primaryPropertyKey},jdbcType=BIGINT}
+    </update>
+    <!--根据Id全修改-->
+    <update id="updateByPrimaryKey" parameterType="com.binfei.admin.sys.entity.User">
+        update $!{entityDto.tableName}
+         set
+#foreach( $column in $entityDto.columns )
+#if($velocityCount != 1 )
+            $!{column.columnName} = #{record.$!{column.propertyName},jdbcType=$!{column.jdbcType}}#if($foreach.hasNext),#end
+
+#end
+#end
+        where $!{entityDto.primaryKey} = #{$!{entityDto.primaryPropertyKey},jdbcType=BIGINT}
+    </update>
+</mapper>
