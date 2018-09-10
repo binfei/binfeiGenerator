@@ -135,7 +135,7 @@
         </if>
     </delete>
     <insert id="insert" parameterType="$!{entityDto.packageName}.$!{entityDto.modeName}.entity.$!{entityDto.className}">
-        <selectKey keyProperty="$!{entityDto.primaryKey}" order="AFTER" resultType="java.lang.Long">
+        <selectKey keyProperty="$!{entityDto.primaryPropertyKey}" order="AFTER" resultType="java.lang.Long">
             SELECT LAST_INSERT_ID()
         </selectKey>
             insert into $!{entityDto.tableName} (
@@ -157,7 +157,7 @@
     </insert>
 
     <insert id="insertSelective" parameterType="$!{entityDto.packageName}.$!{entityDto.modeName}.entity.$!{entityDto.className}">
-        <selectKey keyProperty="$!{entityDto.primaryKey}" order="AFTER" resultType="java.lang.Long">
+        <selectKey keyProperty="$!{entityDto.primaryPropertyKey}" order="AFTER" resultType="java.lang.Long">
             SELECT LAST_INSERT_ID()
         </selectKey>
         insert into $!{entityDto.tableName}
@@ -193,7 +193,7 @@
         update $!{entityDto.tableName}
             <set>
 #foreach( $column in $entityDto.columns )
-                <if test="record.propertyName != null">
+                <if test="record.$!{column.propertyName} != null">
                     $!{column.columnName} = #{record.$!{column.propertyName},jdbcType=$!{column.jdbcType}}#if($foreach.hasNext),#end
 
                 </if>
@@ -208,8 +208,10 @@
         update $!{entityDto.tableName}
         set
 #foreach( $column in $entityDto.columns )
+#if($velocityCount != 1)
             $!{column.columnName} = #{record.$!{column.propertyName},jdbcType=$!{column.jdbcType}}#if($foreach.hasNext),#end
 
+#end
 #end
         <if test="_parameter != null">
             <include refid="Example_Where_Map" />
@@ -222,8 +224,8 @@
             <set>
 #foreach( $column in $entityDto.columns )
 #if($velocityCount != 1 )
-                <if test="record.$!{column.propertyName} != null">
-                        $!{column.columnName} = #{record.$!{column.propertyName},jdbcType=$!{column.jdbcType}}#if($foreach.hasNext),#end
+                <if test="$!{column.propertyName} != null">
+                        $!{column.columnName} = #{$!{column.propertyName},jdbcType=$!{column.jdbcType}}#if($foreach.hasNext),#end
 
                 </if>
 #end
@@ -237,7 +239,7 @@
          set
 #foreach( $column in $entityDto.columns )
 #if($velocityCount != 1 )
-            $!{column.columnName} = #{record.$!{column.propertyName},jdbcType=$!{column.jdbcType}}#if($foreach.hasNext),#end
+            $!{column.columnName} = #{$!{column.propertyName},jdbcType=$!{column.jdbcType}}#if($foreach.hasNext),#end
 
 #end
 #end

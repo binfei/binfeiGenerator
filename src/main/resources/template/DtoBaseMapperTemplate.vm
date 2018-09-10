@@ -2,7 +2,7 @@ package $!{entityDto.packageName}.$!{entityDto.modeName};
 
 import $!{entityDto.packageName}.$!{entityDto.modeName}.entity.$!{entityDto.className};
 import java.util.List;
-import org.apache.ibatis.annotations.Param;
+import java.util.Map;
 
 public interface $!{entityDto.className}BaseMapper {
     long countByMap(Map map);
