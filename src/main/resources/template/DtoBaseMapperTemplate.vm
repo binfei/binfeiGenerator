@@ -1,10 +1,10 @@
-package $!{entityDto.packageName}.$!{entityDto.modeName}.$!{entityDto.className}BaseMapper;
+package $!{entityDto.packageName}.$!{entityDto.modeName};
 
 import $!{entityDto.packageName}.$!{entityDto.modeName}.entity.$!{entityDto.className};
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
-public interface $!{entityDto.className}Mapper {
+public interface $!{entityDto.className}BaseMapper {
     long countByMap(Map map);
 
     int deleteByMap(Map map);
