@@ -1,4 +1,4 @@
-package $!{packageName}.$!{entityDto.modeName}.entity;
+package $!{entityDto.packageName}.$!{entityDto.modeName}.entity;
 
 import lombok.Data;
 /**
