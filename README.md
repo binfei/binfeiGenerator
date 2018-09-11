@@ -55,3 +55,6 @@ userName:nicai  创建人
 table:nicai  表名 <br/>
 
 packageName:com.binfei.XXX  包名  
+
+
+最后  暂时只支持mysql  也可能这辈子 也就支支持mysql 了
