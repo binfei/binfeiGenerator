@@ -13,24 +13,39 @@ main 方法是程序入口
 算了  还是给你们说说核心吧   核心就是   对查询  修改 条件  进行了规定  直接传Map   进行查询   并且奉献 DataModel 类   
 
 数字日期行匹配
-属性_gt -------- greater than >
-属性_gte --------- gt equal >=
-属性_lt -------- less than <
-属性_lte --------- lt equal <=
-属性_ne ----------- not equal !=
-属性_s -----------   in ()  可传数组 或list
+
+属性_gt -------- greater than >   
+ 
+属性_gte --------- gt equal >=   
+
+属性_lt -------- less than <   
+
+属性_lte --------- lt equal <=  
+
+属性_ne ----------- not equal !=  
+
+属性_s -----------   in ()  可传数组 或list  
+
 
 字符串匹配
-属性_la -------- like as all %XX%形式
-属性_ll -------- like as left XX%形式
-属性_lr -------- like as right %XX形式
+属性_la -------- like as all %XX%形式 
+
+属性_ll -------- like as left XX%形式 
+
+属性_lr -------- like as right %XX形式  
 
 配置文件
-driver:com.mysql.jdbc.Driver
-#user:nicai
-#pwd:nicai
-#url:jdbc:mysql://localhost/nicai
+driver:com.mysql.jdbc.Driver  
+  
+#user:nicai 
 
-userName:nicai  创建人
-table:nicai  表名
-packageName:com.binfei.XXX  包名
+#pwd:nicai  
+
+#url:jdbc:mysql://localhost/nicai 
+
+
+userName:nicai  创建人 
+    
+table:nicai  表名 <br/>
+
+packageName:com.binfei.XXX  包名  
