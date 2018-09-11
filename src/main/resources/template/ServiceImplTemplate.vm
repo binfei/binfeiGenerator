@@ -1,0 +1,62 @@
+package $!{entityDto.packageName}.$!{entityDto.modeName}.service.impl;
+
+import com.binfei.Generator.util.DataModel;
+import $!{entityDto.packageName}.$!{entityDto.modeName}.entity.$!{entityDto.className};
+import $!{entityDto.packageName}.$!{entityDto.modeName}.mapper.$!{entityDto.className}Mapper;
+import $!{entityDto.packageName}.$!{entityDto.modeName}.service.$!{entityDto.className}Service;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ */
+@Service
+@Transactional
+public class $!{entityDto.className}ServiceImpl implements $!{entityDto.className}Service{
+    @Resource
+    private $!{entityDto.className}Mapper $!{entityDto.propertyName}Mapper;
+
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    public boolean insertSelective($!{entityDto.className} $!{entityDto.propertyName}){
+        if($!{entityDto.propertyName}Mapper.insertSelective($!{entityDto.propertyName})>0){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    public boolean updateByPrimaryKeySelective(User $!{entityDto.propertyName}){
+        if($!{entityDto.propertyName}Mapper.updateByPrimaryKeySelective($!{entityDto.propertyName})>0){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    public boolean deleteByPrimaryKey(Long id){
+        if($!{entityDto.propertyName}Mapper.deleteByPrimaryKey(id)>0){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    public User getUser(Long id){
+        return $!{entityDto.propertyName}Mapper.selectByPrimaryKey(id);
+    }
+    public List<User> getUserList(Map map){
+        return $!{entityDto.propertyName}Mapper.selectByMap(map);
+    }
+    public Page<User> getUserPages(DataModel dataModel){
+        PageHelper.startPage(dataModel.getInt("page"),dataModel.getInt("rows"));
+        Page<User> list=(Page)$!{entityDto.propertyName}Mapper.selectByMap(dataModel);
+        return list;
+    }
+}
+
