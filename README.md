@@ -1,7 +1,7 @@
 # binfeiGenerator
 一个伟大的项目开始啦
 
-本项目更加mybatisGenerator改造   采用velocity 实现
+本项目根据mybatisGenerator改造   采用velocity 实现
 分页用 pagehelper   实体  用了  lombok @Data 注解
 
 整套逆向工程  代码由本人加度娘一起开发的  代码简洁   相信是个java 程序员就能看得懂  且可以二次开发  更适合自己的项目的逆向工程
