@@ -1,0 +1,6 @@
+package $!{entityDto.packageName}.$!{entityDto.modeName};
+
+
+public interface $!{entityDto.className}Mapper extends $!{entityDto.className}BaseMapper{
+
+}
