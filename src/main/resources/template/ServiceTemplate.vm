@@ -1,0 +1,23 @@
+package $!{entityDto.packageName}.$!{entityDto.modeName}.service;
+
+import com.alibaba.fastjson.JSONObject;
+import com.binfei.Generator.util.DataModel;
+import $!{entityDto.packageName}.$!{entityDto.modeName}.$!{entityDto.className};
+import com.github.pagehelper.Page;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Map;
+
+/**
+* userName:$!{userName}
+* date:$!{createDate}
+*/
+public interface $!{entityDto.className}Service {
+
+public boolean insertSelective($!{entityDto.className} user);
+public boolean updateByPrimaryKeySelective($!{entityDto.className} user);
+public boolean deleteByPrimaryKey(Long id);
+public $!{entityDto.className} get$!{entityDto.className}(Long id);
+public List<$!{entityDto.className}> get$!{entityDto.className}List(Map map);
+

@@ -16,7 +16,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- */
+* userName:$!{userName}
+* date:$!{createDate}
+*/
 @Service
 @Transactional
 public class $!{entityDto.className}ServiceImpl implements $!{entityDto.className}Service{

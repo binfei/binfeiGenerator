@@ -3,7 +3,7 @@ package $!{entityDto.packageName}.$!{entityDto.modeName}.entity;
 import lombok.Data;
 /**
  * userName:$!{userName}
- * date:$!{userName}
+ * date:$!{createDate}
  */
 @Data
 public class $!{entityDto.className} {

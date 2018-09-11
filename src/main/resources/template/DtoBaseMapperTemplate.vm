@@ -3,7 +3,10 @@ package $!{entityDto.packageName}.$!{entityDto.modeName};
 import $!{entityDto.packageName}.$!{entityDto.modeName}.entity.$!{entityDto.className};
 import java.util.List;
 import java.util.Map;
-
+/**
+* userName:$!{userName}
+* date:$!{createDate}
+*/
 public interface $!{entityDto.className}BaseMapper {
     long countByMap(Map map);
 

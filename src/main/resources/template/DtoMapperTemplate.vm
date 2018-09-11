@@ -1,6 +1,9 @@
 package $!{entityDto.packageName}.$!{entityDto.modeName};
 
-
+/**
+* userName:$!{userName}
+* date:$!{createDate}
+*/
 public interface $!{entityDto.className}Mapper extends $!{entityDto.className}BaseMapper{
 
 }
