@@ -28,13 +28,17 @@ main 方法是程序入口
 
 
 字符串匹配
+ 
 属性_la -------- like as all %XX%形式 
 
 属性_ll -------- like as left XX%形式 
 
 属性_lr -------- like as right %XX形式  
 
-配置文件
+属性_s -----------   in ()  可传数组 或list  
+
+配置文件 
+
 driver:com.mysql.jdbc.Driver  
   
 #user:nicai 
