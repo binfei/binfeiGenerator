@@ -73,7 +73,14 @@ public class DBHelpInfo {
                     System.out.println("字段名："+rs.getString("COLUMN_NAME")+"\t属性名:"+camelName(rs.getString("COLUMN_NAME"))+"\t字段属性:"+getFieldType(rs.getString("TYPE_NAME"))+"\t字段注释："+rs.getString("REMARKS")+"\t字段数据类型："+rs.getString("TYPE_NAME"));
                     Column column=new Column();
                     column.setColumnName(rs.getString("COLUMN_NAME"));
-                    column.setJdbcType(rs.getString("TYPE_NAME"));
+                    if("INT".equals(rs.getString("TYPE_NAME"))){
+                        column.setJdbcType("INTEGER");
+                    }else if("DATETIME".equals(rs.getString("TYPE_NAME"))){
+                        column.setJdbcType("TIMESTAMP");
+                    }else{
+                        column.setJdbcType(rs.getString("TYPE_NAME"));
+                    }
+
                     column.setPropertyName(camelName(rs.getString("COLUMN_NAME")));
                     String ptSnd[]=getFieldType(rs.getString("TYPE_NAME"));
                     column.setPropertyType(ptSnd[1]);
@@ -82,8 +89,6 @@ public class DBHelpInfo {
                     columns.add(column);
 
                 }
-
-
                 pw.write("</p>");
                 pw.flush();
                 pw.close();
@@ -93,7 +98,8 @@ public class DBHelpInfo {
                 String tabStr=camelName(tableNameStr);
                 entityDto.setClassName(tabStr.substring(0, 1).toUpperCase()+tabStr.substring(1).toLowerCase());
                 entityDto.setPropertyName(tabStr);
-                entityDto.setPackageName(tableName.substring(0,tableName.indexOf("_")));
+                entityDto.setPackageName(packageName);
+                entityDto.setModeName(tableName.substring(0,tableName.indexOf("_")));
                 ResultSet result2 = dbmd.getPrimaryKeys(
                         null, null, tableName);
                 String primaryKey="";
@@ -159,19 +165,14 @@ public class DBHelpInfo {
             result[0]="d";
             result[1]="Date";
             return result;
-        } else if (columnType.equals("bit") ||columnType.equals("int")||columnType.equals("tinyint") ||columnType.equals("smallint")
+        } else if (columnType.equals("bit") ||columnType.equals("int")||columnType.equals("tinyint") ||columnType.equals("smallint")||columnType.equals("integer")
 //                ||columnType.equals("bool")
 //                ||columnType.equals("mediumint")
         ){
             result[0]="n";
-            result[1]="int";
-            return result;
-        }else if (columnType.equals("integer")
-        ){
-            result[0]="n";
             result[1]="Integer";
             return result;
-        } else if (columnType.equals("float")) {
+        }else if (columnType.equals("float")) {
             result[0]="n";
             result[1]="Float";
             return result;
