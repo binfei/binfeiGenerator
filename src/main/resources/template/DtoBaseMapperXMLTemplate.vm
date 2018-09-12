@@ -219,7 +219,7 @@
     </update>
 
     <!--根据条件id部分修改-->
-    <update id="updateByPrimaryKeySelective" parameterType="com.binfei.admin.sys.entity.User">
+    <update id="updateByPrimaryKeySelective" parameterType="$!{entityDto.packageName}.$!{entityDto.modeName}.entity.$!{entityDto.className}">
         update $!{entityDto.tableName}
             <set>
 #foreach( $column in $entityDto.columns )
@@ -234,7 +234,7 @@
         where $!{entityDto.primaryKey} = #{$!{entityDto.primaryPropertyKey},jdbcType=BIGINT}
     </update>
     <!--根据Id全修改-->
-    <update id="updateByPrimaryKey" parameterType="com.binfei.admin.sys.entity.User">
+    <update id="updateByPrimaryKey" parameterType="$!{entityDto.packageName}.$!{entityDto.modeName}.entity.$!{entityDto.className}">
         update $!{entityDto.tableName}
          set
 #foreach( $column in $entityDto.columns )
